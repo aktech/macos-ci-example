@@ -1,0 +1,23 @@
+name: MacOS Runner
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    permissions: write-all
+    runs-on: "cirun-runner--${{ github.run_id }}"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.0.0
+      - name: Run ls pwd and df
+        run: |
+          ls
+          pwd
+          df -h
+      - name: System information
+        run: |
+          sysctl -a | grep machdep.cpu
+          system_profiler SPHardwareDataType | grep -vE "Serial Number|UUID"
+
